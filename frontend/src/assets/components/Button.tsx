@@ -17,9 +17,13 @@ function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`text-white font-inter text-md font-bold bg-secondary rounded-md shadow-md px-16 py-2 cursor-pointer ${className}`}
+      className={` bg-secondary rounded-md shadow-md px-10 py-2 cursor-pointer ${className}`}
     >
-      <span className={`font-inter text-white ${textClassName}`}>{text}</span>
+      <span
+        className={`text-white font-inter text-md font-bold ${textClassName}`}
+      >
+        {text}
+      </span>
     </button>
   );
 }
