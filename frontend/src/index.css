@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --color-primary: #fafaf5;
+  --color-secondary: #02649d;
+  --color-accent: #2d2d2d;
+  --color-placeholder: #6c6c6c;
+  --color-border: #989898;
+  --color-pending: #ffcc00;
+  --color-approved: #00af1a;
+  --color-rejected: #ea0000;
+  --color-completed: #02649d;
+}
+
+@utility font-header {
+  font-family: var(--font-inter);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  line-height: 2.5rem;
+  font-size: 1.875rem;
+  color: var(--color-secondary);
+}
+
+@utility font-subheader {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-size: 1.125rem;
+  color: black;
+}
+
+@utility font-regular {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: black;
+}

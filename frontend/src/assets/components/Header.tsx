@@ -1,0 +1,95 @@
+import { useState } from "react";
+
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="w-full fixed top-0 left-0 z-50 bg-primary shadow-xl">
+      <div className="flex justify-between items-center px-4 sm:px-12 md:px-24 lg:px-32 h-22">
+        <div className="flex items-center gap-16">
+          <img
+            src="/images/logo/scholarshelf-logo-blue.png"
+            alt="ScholarShelf Logo"
+            className="w-34 sm:w-32 md:w-36 cursor-pointer transition-transform duration-300 hover:scale-105"
+          />
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex">
+            <ul className="flex gap-12 text-black font-inter font-semibold text-md">
+              {["Home", "Books", "Catalog", "Reservations", "About"].map(
+                (item) => (
+                  <li key={item}>
+                    <a
+                      href={`/${item.toLowerCase()}`}
+                      className="relative group"
+                    >
+                      {item}
+                      <span className="absolute left-0 -bottom-2 w-full h-0.5 bg-secondary transition-transform duration-300 scale-x-0 origin-right group-hover:scale-x-100"></span>
+                    </a>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+        </div>
+
+        {/* Right-side Icons (desktop only) */}
+        <div className="hidden md:flex gap-4 items-center">
+          <img
+            src="/images/icons/wishlist-header.png"
+            alt="Wishlist"
+            className="w-6 cursor-pointer"
+          />
+          <img
+            src="/images/icons/notification.png"
+            alt="Notification"
+            className="w-7 cursor-pointer"
+          />
+          <img
+            src="/images/icons/user.png"
+            alt="Profile"
+            className="w-10 cursor-pointer"
+          />
+        </div>
+
+        {/* Hamburger (mobile only) */}
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? (
+            <img
+              src="/images/icons/close.png"
+              alt="Close Icon"
+              className="w-8 cursor-pointer transition-all duration-300 hover:rotate-90"
+            />
+          ) : (
+            <img
+              src="/images/icons/menu-bar.png"
+              alt="Menu"
+              className="w-8 cursor-pointer"
+            />
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <nav
+        className={`md:hidden bg-primary text-black font-inter text-lg font-medium flex flex-col gap-2 transition-all duration-300 fixed top-20 left-0 w-full h-[calc(100vh-5rem)] ${menuOpen ? "block" : "hidden"}`}
+      >
+        <a href="/" className="hover:bg-secondary rounded-md p-3">
+          Home
+        </a>
+        <a href="/book" className="hover:bg-secondary rounded-md p-3">
+          Books
+        </a>
+        <a href="/catalog" className="hover:bg-secondary rounded-md p-3">
+          Catalog
+        </a>
+        <a href="/reservation" className="hover:bg-secondary rounded-md p-3">
+          Reservations
+        </a>
+        <a href="/about" className="hover:bg-secondary rounded-md p-3">
+          About
+        </a>
+      </nav>
+    </header>
+  );
+}

@@ -1,0 +1,7 @@
+-- React routing --
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+
+-- TailwindCSS -- 
+npm install tailwindcss @tailwindcss/vite
+
