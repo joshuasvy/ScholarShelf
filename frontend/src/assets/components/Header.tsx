@@ -58,29 +58,29 @@ export default function Header() {
             <img
               src="/images/icons/close.png"
               alt="Close Icon"
-              className="w-8 cursor-pointer transition-all duration-300 hover:rotate-90"
+              className="w-8 mr-8 cursor-pointer transition-all duration-300 hover:rotate-90"
             />
           ) : (
             <div className="flex items-center gap-3">
               <img
                 src="/images/icons/wishlist-header.png"
-                alt="Menu"
+                alt="Wishlist Icon"
                 className="w-5 cursor-pointer"
               />
               <img
                 src="/images/icons/notification.png"
-                alt="Menu"
+                alt="Notification Icon"
                 className="w-6 cursor-pointer"
               />
               <img
                 src="/images/icons/user.png"
-                alt="Menu"
+                alt="User Icon"
                 className="w-7 cursor-pointer"
               />
               <div>
                 <img
                   src="/images/icons/menu-bar.png"
-                  alt="Menu"
+                  alt="Menu Icon"
                   className="w-8 cursor-pointer"
                 />
               </div>

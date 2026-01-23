@@ -62,10 +62,21 @@ function Home() {
           </p>
         </div>
       </article>
-      <article className="bg-primary flex flex-row justify-center py-12 md:py-20 px-6 sm:px-6 md:px-20 lg:px-42">
-        <div className="flex flex-col md:flex-row lg:gap-18">
-          <div className="flex flex-col gap-6">
-            <h1 className="font-inter font-bold text-2xl sm:text-md md:text-2xl lg:text-3xl">
+      <article className="bg-primary flex justify-center py-10 md:py-20 px-6 sm:px-6 md:px-20 lg:px-42">
+        <div className="flex flex-col-reverse md:flex-row md:justify-between gap-6">
+          <div className="order-1 md:order-2 relative">
+            <img
+              src="/images/sections/sec-3-img.jpg"
+              alt="Section 3 Image"
+              className="w-full h-68 object-cover md:w-90 md:h-full lg:w-98 lg:h-auto mt-8 md:mt-0 md:shadow-md rounded-t-md md:rounded-md cursor-pointer md:hover:scale-102 transition-transform duration-400"
+            />
+            <div className="flex md:hidden absolute bottom-0 left-0 w-full h-32 bg-linear-to-t from-primary to-transparent"></div>
+            <h1 className="absolute bottom-0 font-inter font-bold text-xl sm:text-xl md:text-2xl lg:text-3xl px-2 md:hidden">
+              Broadening Access to Scholarly <br /> Knowledge
+            </h1>
+          </div>
+          <div className="flex flex-col gap-4">
+            <h1 className="font-inter font-bold text-xl md:text-2xl lg:text-3xl hidden md:block mb-2">
               Broadening Access to Scholarly <br /> Knowledge
             </h1>
             <div className="flex flex-row items-center gap-3 md:gap-4">
@@ -100,7 +111,7 @@ function Home() {
                 className="w-7 h-7 sm:w-7 sm:h-6 md:w-8 md:h-8 lg:w-9 lg:h-9"
               />
             </div>
-            <p className="font-inter leading-relaxed max-w-prose">
+            <p className="font-inter leading-relaxed max-w-prose text-sm md:text-base lg:text-lg">
               A diverse collection of academic works spanning literature,
               history, biology, astronomy, and related disciplines supports
               rigorous study and intellectual exploration. Clear access to
@@ -114,20 +125,14 @@ function Home() {
               textClassName="text-md"
             />
           </div>
-          <div className="flex justify-center">
-            <img
-              src="/images/sections/sec-3-img.jpg"
-              alt="Section 3 Image"
-              className="hidden md:flex w-58 md:w-60 lg:w-98 mt-8 rounded-md shadow-sm hover:scale-102 hover:shadow-md transition-transform duration-400 cursor-pointer"
-            />
-          </div>
         </div>
       </article>
-      <article className="bg-white flex flex-col items-center justify-center pt-18 pb-8">
+      <article className="bg-white flex flex-col items-center justify-center pt-18 pb-8 md:px-12">
         <div>
           <h1 className="font-inter font-bold text-2xl">
             Trending Book on ScholarShelf
           </h1>
+
           {topics.map((topic) => (
             <div key={topic}>
               <div className="flex flex-row gap-2 items-center mb-6 mt-6 ml-4">
@@ -149,14 +154,16 @@ function Home() {
       </article>
       <article className="bg-primary py-20 flex flex-col justify-center items-center gap-14">
         <div className="text-center">
-          <h1 className="font-header mb-6">Trusted by Readers and Learners</h1>
-          <p className="font-inter text-md">
+          <h1 className="font-inter text-2xl text-secondary font-bold italic tracking-wide md:font-header mb-6 px-4 md:px-0">
+            Trusted by Readers and Learners
+          </h1>
+          <p className="font-inter text-md break-normal px-4">
             Feedback from readers and learners highlights the importance of
             accessible resources and a well-organized <br /> reading experience
             in supporting effective academic engagement.
           </p>
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:px-4">
           {testimonial.map((testimonial) => (
             <TestimonialCard
               key={testimonial.id}

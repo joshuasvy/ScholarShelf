@@ -18,20 +18,20 @@ export default function HorizontalCard({
 }: CardProps) {
   return (
     <div>
-      <div className="w-78 h-auto bg-white flex flex-row gap-2 rounded-sm shadow-md pr-2">
+      <div className="w-44 min-h-36 md:w-78 md:bg-white flex flex-col sm:flex-row md:rounded-sm md:shadow-md gap-2">
         <img
           src={cover || BookPlaceholder}
           alt={title}
-          className="w-30 rounded-l-sm shadow-sm"
+          className="w-full sm:w-28 md:w-32 rounded-sm md:rounded-r-none md:rounded-l-sm md:shadow-sm object-cover"
         />
-        <div className="w-full flex flex-col gap-2 mt-2 font-inter text-sm relative">
+        <div className="flex flex-col gap-2 font-inter text-sm flex-1 p-2 pr-2">
           <h2 className="font-semibold text-md line-clamp-2">
             {title || "Title of the Book"}
           </h2>
-          <p className="w-full line-clamp-1">
+          <p className="line-clamp-1">
             Author: <span>{author || "Author of the Book"}</span>
           </p>
-          <p className="w-full line-clamp-1">
+          <p className="line-clamp-1">
             Topic:{" "}
             <span className="font-semibold">
               {topic || "Topic of the Book"}
@@ -41,7 +41,7 @@ export default function HorizontalCard({
             Year:{" "}
             <span className="font-semibold">{year || "Published Year"}</span>
           </p>
-          <div className="absolute bottom-2 right-1">
+          <div className="mt-auto self-end hidden md:block">
             <CardActionBtn />
           </div>
         </div>
