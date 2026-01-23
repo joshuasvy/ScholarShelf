@@ -16,19 +16,20 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex">
             <ul className="flex gap-4 sm:gap-4 md:gap-6 lg:gap-12 text-black font-inter font-semibold text-base sm:text-md md:text-base lg:text-md">
-              {["Home", "Books", "Catalog", "Reservations", "About"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href={`/${item.toLowerCase()}`}
-                      className="relative group"
-                    >
-                      {item}
-                      <span className="absolute left-0 -bottom-2 w-full h-0.5 bg-secondary transition-transform duration-300 scale-x-0 origin-right group-hover:scale-x-100"></span>
-                    </a>
-                  </li>
-                ),
-              )}
+              {[
+                { label: "Home", path: "home" },
+                { label: "Books", path: "book" },
+                { label: "Catalog", path: "catalog" },
+                { label: "Reservations", path: "reservation" },
+                { label: "About", path: "about" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={`/${item.path}`} className="relative group">
+                    {item.label}
+                    <span className="absolute left-0 -bottom-2 w-full h-0.5 bg-secondary transition-transform duration-300 scale-x-0 origin-right group-hover:scale-x-100"></span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
