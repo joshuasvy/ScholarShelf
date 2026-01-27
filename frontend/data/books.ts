@@ -69,7 +69,7 @@ export const books: Book[] = [
     cover: "/images/books/history-book-4.png",
     title: "Spain, Portugal and the Atlantic Frontier of Medieval Europe",
     author: "Jose Juan Lopez-Portillo",
-    topic: "History",
+    topic: "Antropology",
     year: 2010,
   },
   {
@@ -77,7 +77,7 @@ export const books: Book[] = [
     cover: "/images/books/book-placeholder.png",
     title: "Lorem ipsum dolor sit amet",
     author: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    topic: "History",
+    topic: "Art",
     year: 2010,
   },
   {
@@ -85,7 +85,7 @@ export const books: Book[] = [
     cover: "/images/books/book-placeholder.png",
     title: "Lorem ipsum dolor sit amet",
     author: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    topic: "History",
+    topic: "Astronomy",
     year: 2010,
   },
   {

@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap");
 @import "tailwindcss";
 @import "tailwindcss/utilities";
 
 @theme {
   --font-inter: "Inter", sans-serif;
+  --font-title: "Libre Baskerville", sans-serif;
   --color-primary: #fafaf5;
   --color-secondary: #02649d;
   --color-accent: #2d2d2d;
@@ -30,13 +32,6 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   font-size: 1.125rem;
-  color: black;
-}
-
-@utility font-regular {
-  font-family: var(--font-inter);
-  font-weight: 400;
-  font-size: 0.875rem;
   color: black;
 }
 

@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-primary shadow-xl">
+    <header
+      className={`w-full sticky top-0 left-0 z-50 bg-primary shadow-xl transition-transform duration-500 ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+    >
       <div className="flex justify-between items-center px-4 sm:px-4 md:px-8 lg:px-32 h-22">
         <div className="flex items-center gap-2 sm:gap-4 md:gap-8 lg:gap-14">
           <img
@@ -36,21 +62,27 @@ export default function Header() {
 
         {/* Right-side Icons (desktop only) */}
         <div className="hidden md:flex gap-2 md:gap-3 lg:gap-4 items-center">
-          <img
-            src="/images/icons/wishlist-header.png"
-            alt="Wishlist"
-            className="w-3 sm:w-4 md:w-5 lg:w-6 cursor-pointer"
-          />
-          <img
-            src="/images/icons/notification.png"
-            alt="Notification"
-            className="w-4 sm:w-5 md:w-6 lg:w-7 cursor-pointer"
-          />
-          <img
-            src="/images/icons/user.png"
-            alt="Profile"
-            className="w-7 sm:w-8 md:w-9 lg:w-10 cursor-pointer"
-          />
+          <button onClick={() => navigation("/wishlist")}>
+            <img
+              src="/images/icons/wishlist-header.png"
+              alt="Wishlist"
+              className="w-3 sm:w-4 md:w-5 lg:w-6 cursor-pointer"
+            />
+          </button>
+          <button onClick={() => navigation("/notification")}>
+            <img
+              src="/images/icons/notification.png"
+              alt="Notification"
+              className="w-4 sm:w-5 md:w-6 lg:w-7 cursor-pointer"
+            />
+          </button>
+          <button onClick={() => navigation("/profile")}>
+            <img
+              src="/images/icons/user.png"
+              alt="Profile"
+              className="w-7 sm:w-8 md:w-9 lg:w-10 cursor-pointer"
+            />
+          </button>
         </div>
 
         {/* Hamburger (mobile only) */}
@@ -59,33 +91,14 @@ export default function Header() {
             <img
               src="/images/icons/close.png"
               alt="Close Icon"
-              className="w-8 mr-8 cursor-pointer transition-all duration-300 hover:rotate-90"
+              className="w-8 cursor-pointer transition-all duration-300 hover:rotate-90"
             />
           ) : (
-            <div className="flex items-center gap-3">
-              <img
-                src="/images/icons/wishlist-header.png"
-                alt="Wishlist Icon"
-                className="w-5 cursor-pointer"
-              />
-              <img
-                src="/images/icons/notification.png"
-                alt="Notification Icon"
-                className="w-6 cursor-pointer"
-              />
-              <img
-                src="/images/icons/user.png"
-                alt="User Icon"
-                className="w-7 cursor-pointer"
-              />
-              <div>
-                <img
-                  src="/images/icons/menu-bar.png"
-                  alt="Menu Icon"
-                  className="w-8 cursor-pointer"
-                />
-              </div>
-            </div>
+            <img
+              src="/images/icons/menu-bar.png"
+              alt="Menu Icon"
+              className="w-8 cursor-pointer"
+            />
           )}
         </button>
       </div>
@@ -106,8 +119,17 @@ export default function Header() {
         <a href="/reservation" className="hover:bg-secondary rounded-md p-3">
           Reservations
         </a>
+        <a href="/wishlist" className="hover:bg-secondary rounded-md p-3">
+          Wishlist
+        </a>
+        <a href="/notification" className="hover:bg-secondary rounded-md p-3">
+          Notifications
+        </a>
         <a href="/about" className="hover:bg-secondary rounded-md p-3">
           About
+        </a>
+        <a href="/profile" className="hover:bg-secondary rounded-md p-3">
+          Profile
         </a>
       </nav>
     </header>

@@ -3,16 +3,14 @@ import Header from "../components/Header";
 import TrendingBooks from "../components/TrendingBooks";
 import TestimonialCard from "../components/TestimonialCard";
 import Footer from "../components/Footer";
-import { books } from "../../../data/books";
+import { trendingBooks } from "../../../data/trendingBooks";
 import { testimonial } from "../../../data/testimonial";
 
 function Home() {
-  const topics = [...new Set(books.map((book) => book.topic))];
+  const topics = [...new Set(trendingBooks.map((book) => book.topic))];
   return (
-    <div className="h-full w-full bg-primary">
-      <div className="mt-22">
-        <Header />
-      </div>
+    <div className="min-h-screen w-full bg-primary">
+      <Header />
       <article className="flex flex-col justify-center items-center py-10 md:py-24 px-6 md:px-0">
         <h1 className="font-inter font-bold text-secondary italic tracking-wide text-center text-xl md:font-header mb-2">
           Discover Knowledge. Reserve Book Instantly.
@@ -122,7 +120,7 @@ function Home() {
               text="Browse now"
               onClick={() => {}}
               className="w-48 h-12"
-              textClassName="text-md"
+              textClassName="text-md md:text-lg"
             />
           </div>
         </div>
@@ -132,7 +130,6 @@ function Home() {
           <h1 className="font-inter font-bold text-2xl">
             Trending Book on ScholarShelf
           </h1>
-
           {topics.map((topic) => (
             <div key={topic}>
               <div className="flex flex-row gap-2 items-center mb-6 mt-6 ml-4">

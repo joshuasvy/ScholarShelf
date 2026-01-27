@@ -1,8 +1,8 @@
 import HorizontalCard from "./HorizontalCard";
-import { books } from "../../../data/books";
+import { trendingBooks } from "../../../data/trendingBooks";
 
 export default function TrendingBooks({ topic }: { topic: string }) {
-  const filteredBooks = books.filter((book) => book.topic === topic);
+  const filteredBooks = trendingBooks.filter((book) => book.topic === topic);
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 overflow:hidden gap-6 justify-items-center">
