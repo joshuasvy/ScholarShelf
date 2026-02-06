@@ -45,7 +45,12 @@ function Signup() {
           </p>
         </section>
         <div className="flex flex-col items-center mt-2">
-          <Button text="Sign In" onClick={() => navigate("/")} type="submit" />
+          <Button
+            text="Sign In"
+            onClick={() => navigate("/")}
+            className="w-44 h-10"
+            textClassName="text-lg"
+          />
           <p className="font-regular text-md mt-8">
             Don't have an account?{" "}
             <a

@@ -1,7 +1,6 @@
 interface ButtonProps {
   text: string;
   onClick: () => void;
-  type?: "button" | "submit" | "reset";
   className?: string;
   textClassName?: string;
   next?: string;
@@ -10,14 +9,13 @@ interface ButtonProps {
 function Button({
   text,
   onClick,
-  type = "button",
   className = "",
   textClassName = "",
   next,
 }: ButtonProps) {
   return (
     <button
-      type={type}
+      type="button"
       onClick={onClick}
       className={` bg-secondary rounded-md shadow-md px-6 cursor-pointer flex flex-row gap-4 items-center justify-center ${className}`}
     >

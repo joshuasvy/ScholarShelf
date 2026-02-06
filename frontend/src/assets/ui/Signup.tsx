@@ -57,7 +57,12 @@ function Signup() {
           />
         </section>
         <div className="flex flex-col items-center mt-2">
-          <Button text="Sign Up" onClick={() => {}} type="submit" />
+          <Button
+            text="Sign Up"
+            onClick={() => {}}
+            className="w-44 h-10"
+            textClassName="text-lg"
+          />
           <p className="font-regular text-md mt-8">
             Already have an account?{" "}
             <a
