@@ -6,6 +6,7 @@ const connection = new Pool({
   database: "scholarshelf",
   password: "postgres",
   port: 5432,
+  options: "-c search_path=public",
 });
 
 export default connection;
