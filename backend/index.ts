@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./src/routes/userRoutes.js";
-import connection from "./src/config/connection.js";
 
 const app = express();
 app.use(cors());
