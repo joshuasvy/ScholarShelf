@@ -25,7 +25,7 @@ export default function InputField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="font-regular w-full px-2 py-1 border-b border-black focus:outline-none focus:border-b-2 focus:border-secondary transition-colors pr-10"
+        className="font-inter text-sm w-full px-2 py-1 border-b border-black focus:outline-none focus:border-b-2 focus:border-secondary transition-colors pr-10"
       />
       {type === "password" && (
         <button

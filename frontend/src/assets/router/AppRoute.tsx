@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "../ui/Home";
-import Signup from "../ui/Signup";
-import Signin from "../ui/Signin";
-import Books from "../ui/Books";
-import BookDetails from "../ui/BookDetails";
-import Catalog from "../ui/Catalog";
-import Reservation from "../ui/Reservation";
-import About from "../ui/About";
-import Profile from "../ui/Profile";
-import Wishlist from "../ui/Wishlist";
-import Notification from "../ui/Notification";
+import Home from "../pages/Home";
+import Signup from "../pages/Signup";
+import Signin from "../pages/Signin";
+import Books from "../pages/Books";
+import BookDetails from "../pages/BookDetails";
+import Catalog from "../pages/Catalog";
+import Reservation from "../pages/Reservation";
+import About from "../pages/About";
+import Profile from "../pages/Profile";
+import Wishlist from "../pages/Wishlist";
+import Notification from "../pages/Notification";
 
 function AppRoute() {
   return (
