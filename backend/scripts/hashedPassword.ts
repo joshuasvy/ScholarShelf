@@ -1,10 +1,8 @@
-// scripts/hashPasswords.ts
 import connection from "../src/config/connection.js";
 import bcrypt from "bcrypt";
 
 async function hashExistingPasswords() {
   try {
-    // 1. Fetch all users
     const users = await connection.query(
       "SELECT id, password FROM public.users;",
     );
