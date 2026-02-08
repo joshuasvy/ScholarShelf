@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../api/user.api";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
@@ -7,6 +8,20 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  async function handleSignup() {
+    try {
+      const result = await loginUser({ email, password });
+      console.log("Backend response:", result);
+      navigate("/home");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error:", err.message);
+      } else {
+        console.error("Unexpected error:", err);
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen flex bg-primary items-center justify-center">
@@ -47,7 +62,7 @@ function Signup() {
         <div className="flex flex-col items-center mt-2">
           <Button
             text="Sign In"
-            onClick={() => navigate("/")}
+            onClick={() => handleSignup()}
             className="w-44 h-10"
             textClassName="text-lg"
           />

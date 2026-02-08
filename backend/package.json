@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm\" src/test-connection.ts",
-    "scripts": "node --loader ts-node/esm scripts/hashPasswords.ts"
+    "scripts": "node --loader ts-node/esm scripts/reset.password.ts"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

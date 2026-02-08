@@ -5,7 +5,7 @@ import connection from "../config/connection.js";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const { name, email, contact, address, password } = req.body;
   try {
     const user = await insertUsers(name, email, contact, address, password);
@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log("Login body:", req.body);
 
   try {
     const result = await connection.query(
@@ -26,10 +27,15 @@ router.post("/login", async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "Account doesn't exist" });
+    }
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
     }
 
     const user = result.rows[0];
+    console.log("User from DB:", user);
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
