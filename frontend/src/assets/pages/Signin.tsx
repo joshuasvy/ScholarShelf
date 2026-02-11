@@ -1,25 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/user.api";
+import { useSignin } from "../../hooks/useSignin";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
-function Signup() {
+function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { handleSignin, errorMessage, setErrorMessage } = useSignin();
   const navigate = useNavigate();
 
-  async function handleSignup() {
-    try {
-      const result = await loginUser({ email, password });
-      console.log("Backend response:", result);
+  async function onSubmit() {
+    const result = await handleSignin({ email, password });
+    if (result) {
       navigate("/home");
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error("Error:", err.message);
-      } else {
-        console.error("Unexpected error:", err);
-      }
+      console.log("success", "Login successful!");
     }
   }
 
@@ -47,22 +42,32 @@ function Signup() {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrorMessage("");
+            }}
           />
           <InputField
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorMessage("");
+            }}
           />
-          <p className="font-regular text-red-600 text-right hover:underline cursor-pointer ">
+          {errorMessage && (
+            <p className="font-inter text-sm text-red-500">{errorMessage}</p>
+          )}
+
+          <p className="font-inter text-sm text-red-600 text-right hover:underline cursor-pointer mt-2">
             Forgot password?
           </p>
         </section>
         <div className="flex flex-col items-center mt-2">
           <Button
             text="Sign In"
-            onClick={() => handleSignup()}
+            onClick={() => onSubmit()}
             className="w-44 h-10"
             textClassName="text-lg"
           />
@@ -82,4 +87,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Signin;
