@@ -48,5 +48,44 @@ export function useAuth() {
     }
   }
 
-  return { handleSignin, errorMessage, setErrorMessage };
+  async function handleSignup(credentials: {
+    name: string;
+    email: string;
+    contact?: string;
+    address: string;
+    password: string;
+    confirmpassword: string;
+  }) {
+    const { name, email, address, password, confirmpassword } = credentials;
+
+    if (!name || !email || !address || !password || !confirmpassword) {
+      setErrorMessage("Please fill all the fields.");
+      return;
+    }
+    if (password !== confirmpassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+    if (!email.includes("@")) {
+      setErrorMessage("Please enter a valid email.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/users/signup`, credentials);
+      return response.data;
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 409) {
+          setErrorMessage("Email already exists.");
+        } else {
+          setErrorMessage("Unexpected error occured.");
+        }
+      } else {
+        setErrorMessage("Something went wrong.");
+      }
+    }
+  }
+
+  return { handleSignin, handleSignup, errorMessage, setErrorMessage };
 }

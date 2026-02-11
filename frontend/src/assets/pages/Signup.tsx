@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
@@ -8,6 +10,22 @@ function Signup() {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpass, setConfirmpass] = useState("");
+  const { handleSignup, errorMessage, setErrorMessage } = useAuth();
+  const navigate = useNavigate();
+
+  async function onSubmit() {
+    const result = await handleSignup({
+      name,
+      email,
+      address,
+      password,
+      confirmpassword: confirmpass,
+    });
+    if (result) {
+      navigate("/signin");
+      console.log("Success", "Sign up successful!");
+    }
+  }
 
   return (
     <div className="min-h-screen flex bg-primary items-center justify-center">
@@ -29,37 +47,55 @@ function Signup() {
             type="text"
             placeholder="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setErrorMessage("");
+            }}
           />
           <InputField
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrorMessage("");
+            }}
           />
           <InputField
             type="text"
             placeholder="Address"
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              setErrorMessage("");
+            }}
           />
           <InputField
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorMessage("");
+            }}
           />
           <InputField
             type="password"
             placeholder="Confirm Password"
             value={confirmpass}
-            onChange={(e) => setConfirmpass(e.target.value)}
+            onChange={(e) => {
+              setConfirmpass(e.target.value);
+              setErrorMessage("");
+            }}
           />
+          {errorMessage && (
+            <p className="font-inter text-sm text-red-500">{errorMessage}</p>
+          )}
         </section>
         <div className="flex flex-col items-center mt-2">
           <Button
             text="Sign Up"
-            onClick={() => {}}
+            onClick={() => onSubmit()}
             className="w-44 h-10"
             textClassName="text-lg"
           />
