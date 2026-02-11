@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSignin } from "../../hooks/useSignin";
+import { useAuth } from "../../hooks/useAuth";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
 function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { handleSignin, errorMessage, setErrorMessage } = useSignin();
+  const { handleSignin, errorMessage, setErrorMessage } = useAuth();
   const navigate = useNavigate();
 
   async function onSubmit() {
     const result = await handleSignin({ email, password });
     if (result) {
       navigate("/home");
-      console.log("success", "Login successful!");
+      console.log("Success", "Login successful!");
     }
   }
 

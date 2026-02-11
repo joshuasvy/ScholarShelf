@@ -2,7 +2,7 @@ import { useState } from "react";
 import { API_URL } from "../utils/config";
 import axios from "axios";
 
-export function useSignin() {
+export function useAuth() {
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSignin(credentials: {
