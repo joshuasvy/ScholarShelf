@@ -15,7 +15,7 @@ router.post("/signup", async (req, res) => {
       return res.status(409).json({ message: "Email already exists" });
     }
     console.log("Failed to create user:", err);
-    res.status(500).json({ error: err.message }); 
+    res.status(500).json({ error: err.message });
   }
 });
 
