@@ -4,6 +4,14 @@ import axios from "axios";
 
 export function useAuth() {
   const [errorMessage, setErrorMessage] = useState("");
+  // const [accessToken, setAccessToken] = useState<string | null>(
+  //   localStorage.getItem("accessToken"),
+  // );
+  // const [refreshToken, setRefreshToken] = useState<string | null>(
+  //   localStorage.getItem("refreshToken"),
+  // );
+
+  // const api = axios.create({ baseURL: API_URL });
 
   async function handleSignin({
     email,
