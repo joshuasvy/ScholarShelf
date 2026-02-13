@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { insertUsers } from "../models/users.js";
+import { generateToken, generateRefreshToken } from "../helper/authToken.js";
 import bcrypt from "bcrypt";
 import connection from "../config/connection.js";
 
@@ -19,15 +20,22 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   console.log("Login body:", req.body);
+  console.log("Email received:", email);
+  console.log("Password received:", password);
 
   try {
+    // 🔎 Debugging step: list all tables in public schema
+    const dir = await connection.query("SHOW data_directory;");
+    console.log(dir.rows);
+
     const result = await connection.query(
-      "SELECT *FROM users WHERE email = $1",
+      "SELECT * FROM users WHERE email = $1",
       [email],
     );
+    console.log("Login query result:", result.rows);
 
     if (result.rows.length === 0) {
       return res.status(401).json({ error: "Account doesn't exist" });
@@ -45,9 +53,23 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    res.json({ message: "Login successful" });
+    const accessToken = generateToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
+
+    await connection.query(
+      "INSERT INTO refresh_token (user_id, token) VALUES ($1, $2)",
+      [user.id, refreshToken],
+    );
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    res.json({ accessToken });
   } catch (err: any) {
-    console.log("Failed to login:", err);
+    console.error("Failed to login:", err);
     res.status(500).json({ error: err.message });
   }
 });

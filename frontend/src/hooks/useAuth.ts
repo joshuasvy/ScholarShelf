@@ -29,7 +29,7 @@ export function useAuth() {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/users/login`, credentials);
+      const response = await axios.post(`${API_URL}/auth/signin`, credentials);
       return response.data;
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -72,7 +72,7 @@ export function useAuth() {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/users/signup`, credentials);
+      const response = await axios.post(`${API_URL}/auth/signup`, credentials);
       return response.data;
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
