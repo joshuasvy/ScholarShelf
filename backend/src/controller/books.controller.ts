@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { insertBooks } from "../models/books.js";
-import connection from "../config/connection.js";
+import {
+  insertBooks,
+  getAllBooks,
+  getBookById,
+  updateBook,
+} from "../models/books.js";  
 
 const router = Router();
 
@@ -47,11 +51,8 @@ router.post("/", async (req, res) => {
 // Getting all the uploaded books from the database
 router.get("/", async (req, res) => {
   try {
-    const getBooks = await connection.query(
-      "SELECT * FROM books ORDER BY created_at DESC",
-    );
-    res.status(200).json(getBooks.rows);
-    // console.log("Retrieved books:", getBooks.rows);
+    const getBooks = await getAllBooks();
+    res.json(getBooks);
   } catch (error: any) {
     console.log("Failed to retrieve books:", error);
     res.status(500).json({ error: error.message });
@@ -61,20 +62,38 @@ router.get("/", async (req, res) => {
 // Getting a specific book by its ID
 router.get("/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const getBooksById = await connection.query(
-      "SELECT * FROM books WHERE id = $1",
-      [id],
-    );
-
-    if (getBooksById.rows.length === 0) {
+    const getBooksById = await getBookById(Number(req.params.id));
+    if (!getBooksById)
       return res.status(404).json({ message: "Book not found" });
-    }
-
     res.status(200).json(getBooksById.rows[0]);
-    console.log("Retrieved book by ID:", getBooksById.rows[0]);
   } catch (error: any) {
     console.log("Failed to retrieve book by ID:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedBook = await updateBook(
+      Number(req.params.id),
+      req.body.book_cover,
+      req.body.title,
+      req.body.sub_title,
+      req.body.author,
+      req.body.language,
+      req.body.abstract,
+      req.body.publisher,
+      req.body.year,
+      req.body.citation,
+      req.body.topic,
+      req.body.shelf_code,
+      req.body.status,
+    );
+    if (!updatedBook)
+      return res.status(404).json({ message: "Book not found" });
+    res.status(200).json(updatedBook.rows[0]);
+  } catch (error: any) {
+    console.log("Failed to update book:", error);
     res.status(500).json({ error: error.message });
   }
 });
