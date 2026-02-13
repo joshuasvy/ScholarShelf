@@ -6,8 +6,20 @@ import connection from "../config/connection.js";
 
 const router = Router();
 
+function validatePassword(password: string): boolean {
+  const regex = /^(?=.*[0-9]).{8,}$/;
+  return regex.test(password);
+}
+
 router.post("/signup", async (req, res) => {
   const { name, email, contact, address, password } = req.body;
+
+  if (!validatePassword(password)) {
+    return res
+      .status(400)
+      .json({ message: "Password does not meet the requirements" });
+  }
+
   try {
     const user = await insertUsers(name, email, contact, address, password);
     res.status(201).json(user);
@@ -23,14 +35,8 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   console.log("Login body:", req.body);
-  console.log("Email received:", email);
-  console.log("Password received:", password);
 
   try {
-    // 🔎 Debugging step: list all tables in public schema
-    const dir = await connection.query("SHOW data_directory;");
-    console.log(dir.rows);
-
     const result = await connection.query(
       "SELECT * FROM users WHERE email = $1",
       [email],

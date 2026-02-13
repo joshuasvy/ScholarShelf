@@ -5,11 +5,14 @@ import axios from "axios";
 export function useAuth() {
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSignin(credentials: {
+  async function handleSignin({
+    email,
+    password,
+  }: {
     email: string;
     password: string;
   }) {
-    const { email, password } = credentials;
+    const credentials = { email, password };
 
     if (!email && !password) {
       setErrorMessage("Please enter your email and password.");
@@ -48,15 +51,30 @@ export function useAuth() {
     }
   }
 
-  async function handleSignup(credentials: {
+  function isValidPassword(password: string): string | null {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!/[0-9]/.test(password)) {
+      return "Password must contain at least one number.";
+    }
+    return null;
+  }
+
+  async function handleSignup({
+    name,
+    email,
+    address,
+    password,
+    confirmpassword,
+  }: {
     name: string;
     email: string;
-    contact?: string;
     address: string;
     password: string;
     confirmpassword: string;
   }) {
-    const { name, email, address, password, confirmpassword } = credentials;
+    const credentials = { name, email, address, password, confirmpassword };
 
     if (!name || !email || !address || !password || !confirmpassword) {
       setErrorMessage("Please fill all the fields.");
@@ -68,6 +86,12 @@ export function useAuth() {
     }
     if (!email.includes("@")) {
       setErrorMessage("Please enter a valid email.");
+      return;
+    }
+
+    const passwordError = isValidPassword(password);
+    if (passwordError) {
+      setErrorMessage(passwordError);
       return;
     }
 

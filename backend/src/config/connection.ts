@@ -5,13 +5,7 @@ const connection = new Pool({
   host: "localhost",
   database: "scholarshelf",
   password: "postgres",
-  port: 2004,
-  options: "-c search_path=public",
+  port: 5432,
 });
-
-const result = await connection.query(
-  "SELECT current_database(), current_schema()",
-);
-console.log(result.rows);
 
 export default connection;
