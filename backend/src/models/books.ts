@@ -3,6 +3,7 @@ import { Book } from "../types/types.js";
 
 export async function insertBooks(
   book_cover: string,
+  book_cover_public_id: string,
   title: string,
   sub_title: string | null,
   author: string,
@@ -18,6 +19,7 @@ export async function insertBooks(
   const query = `
     INSERT INTO books (
       book_cover, 
+      book_cover_public_id,
       title, 
       sub_title, 
       author, 
@@ -29,12 +31,13 @@ export async function insertBooks(
       topic, 
       shelf_code, 
       status
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     RETURNING *;
     `;
 
   const values = [
     book_cover,
+    book_cover_public_id,
     title,
     sub_title,
     author,
