@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import connection from "../config/connection.js";
+import { cp } from "node:fs";
 
 export async function insertUsers(
   name: string,
@@ -20,5 +21,13 @@ export async function insertUsers(
   const values = [name, email, contact, address, hashedPassword];
   const result = await connection.query(query, values);
   console.log("Inserted user:", result.rows[0]);
+  return result.rows[0];
+}
+
+export async function loggedInUser(email: string) {
+  const query = `SELECT * FROM users WHERE email = $1;`;
+  const values = [email];
+  const result = await connection.query(query, values);
+  console.log("Retrieved logged-in user:", result.rows[0]);
   return result.rows[0];
 }

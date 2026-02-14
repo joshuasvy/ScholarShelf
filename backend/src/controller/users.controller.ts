@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { insertUsers } from "../models/users.js";
+import { insertUsers, loggedInUser } from "../models/users.js";
 import { generateToken, generateRefreshToken } from "../helper/authToken.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -37,24 +37,19 @@ router.post("/signup", async (req, res) => {
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login body:", req.body);
 
   try {
-    const result = await connection.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email],
-    );
-    console.log("Login query result:", result.rows);
-
-    if (result.rows.length === 0) {
-      return res.status(401).json({ error: "Account doesn't exist" });
-    }
-
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const user = result.rows[0];
+    const result = await loggedInUser(email);
+
+    if (!result) {
+      return res.status(401).json({ error: "Account doesn't exist" });
+    }
+
+    const user = result;
     console.log("User from DB:", user);
 
     const match = await bcrypt.compare(password, user.password);
