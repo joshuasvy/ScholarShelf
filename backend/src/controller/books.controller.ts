@@ -5,13 +5,16 @@ import {
   getBookById,
   updateBook,
 } from "../models/books.js";
+import multer from "multer";
+import cloudinary from "../config/cloudinary.js";
 
 const router = Router();
 
+const upload = multer({ dest: "uploads/" });
+
 // Admin action route to add a book to the database
-router.post("/", async (req, res) => {
+router.post("/", upload.single("book_cover"), async (req, res) => {
   const {
-    book_cover,
     title,
     sub_title,
     author,
@@ -25,8 +28,14 @@ router.post("/", async (req, res) => {
     status,
   } = req.body;
 
+  let uploadBookCover: { public_id: string; secure_url: string } | undefined;
+
   try {
-    if (!book_cover || !title || !author || !publisher || !year) {
+    if (!req.file) {
+      return res.status(400).json({ message: "Book cover is required" });
+    }
+
+    if (!title || !author || !publisher || !year) {
       return res
         .status(400)
         .json({ message: "Please fill in all required fields" });
@@ -36,15 +45,20 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Year must be a valid number" });
     }
 
+    uploadBookCover = await cloudinary.uploader.upload(req.file.path, {
+      folder: "ScholarShelf_Books",
+    });
+
     const addBooks = await insertBooks(
-      book_cover,
+      uploadBookCover.secure_url,
+      uploadBookCover.public_id,
       title,
       sub_title,
       author,
       language,
       abstract,
       publisher,
-      year,
+      Number(year),
       citation,
       topic,
       shelf_code,
@@ -53,6 +67,14 @@ router.post("/", async (req, res) => {
     res.status(201).json(addBooks);
     console.log("Book added successfully:", addBooks);
   } catch (error: any) {
+    if (uploadBookCover) {
+      console.log(
+        "Rolling back cloudinary upload due to duplicate book entry:",
+        error.detail,
+      );
+      await cloudinary.uploader.destroy(uploadBookCover.public_id);
+    }
+
     if (error.code === "23505") {
       return res
         .status(409)
@@ -105,7 +127,7 @@ router.put("/:id", async (req, res) => {
       req.body.shelf_code,
       req.body.status,
     );
-    
+
     if (!updatedBook)
       return res.status(404).json({ message: "Book not found" });
 
