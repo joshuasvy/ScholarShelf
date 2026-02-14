@@ -4,7 +4,7 @@ import {
   getAllBooks,
   getBookById,
   updateBook,
-} from "../models/books.js";  
+} from "../models/books.js";
 
 const router = Router();
 
@@ -26,6 +26,16 @@ router.post("/", async (req, res) => {
   } = req.body;
 
   try {
+    if (!book_cover || !title || !author || !publisher || !year) {
+      return res
+        .status(400)
+        .json({ message: "Please fill in all required fields" });
+    }
+
+    if (year && isNaN(Number(year))) {
+      return res.status(400).json({ message: "Year must be a valid number" });
+    }
+
     const addBooks = await insertBooks(
       book_cover,
       title,
@@ -65,7 +75,7 @@ router.get("/:id", async (req, res) => {
     const getBooksById = await getBookById(Number(req.params.id));
     if (!getBooksById)
       return res.status(404).json({ message: "Book not found" });
-    res.status(200).json(getBooksById.rows[0]);
+    res.status(200).json(getBooksById);
   } catch (error: any) {
     console.log("Failed to retrieve book by ID:", error);
     res.status(500).json({ error: error.message });
@@ -91,7 +101,7 @@ router.put("/:id", async (req, res) => {
     );
     if (!updatedBook)
       return res.status(404).json({ message: "Book not found" });
-    res.status(200).json(updatedBook.rows[0]);
+    res.status(200).json(updatedBook);
   } catch (error: any) {
     console.log("Failed to update book:", error);
     res.status(500).json({ error: error.message });
