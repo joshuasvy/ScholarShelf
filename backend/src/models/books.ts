@@ -1,21 +1,35 @@
 import connection from "../config/connection.js";
+import { Book } from "../types/types.js";
 
 export async function insertBooks(
   book_cover: string,
   title: string,
-  sub_title: string,
+  sub_title: string | null,
   author: string,
   language: string,
   abstract: string,
   publisher: string,
   year: number,
-  citation: string,
+  citation: string | null,
   topic: string,
   shelf_code: number,
-  status: string,
-) {
+  status: string = "Available",
+): Promise<Book> {
   const query = `
-    INSERT INTO books (book_cover, title, sub_title, author, language, abstract, publisher, year, citation, topic, shelf_code, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    INSERT INTO books (
+      book_cover, 
+      title, 
+      sub_title, 
+      author, 
+      language, 
+      abstract, 
+      publisher, 
+      year, 
+      citation, 
+      topic, 
+      shelf_code, 
+      status
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
     RETURNING *;
     `;
 
@@ -31,11 +45,17 @@ export async function insertBooks(
     citation,
     topic,
     shelf_code,
-    status || "Available",
+    status,
   ];
   const result = await connection.query(query, values);
-  console.log("Inserted book:", result.rows[0]);
-  return result.rows[0];
+
+  if (result.rows.length === 0) {
+    throw new Error("Failed to insert book");
+  }
+
+  const book: Book = result.rows[0];
+  console.log("Inserted book:", book.id, book.title);
+  return book;
 }
 
 export async function getAllBooks() {
