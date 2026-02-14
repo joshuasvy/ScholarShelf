@@ -53,6 +53,12 @@ router.post("/", async (req, res) => {
     res.status(201).json(addBooks);
     console.log("Book added successfully:", addBooks);
   } catch (error: any) {
+    if (error.code === "23505") {
+      return res
+        .status(409)
+        .json({ message: "Book already exists", detail: error.detail });
+    }
+
     console.log("Failed to add book:", error);
     res.status(500).json({ error: error.message });
   }
@@ -99,10 +105,19 @@ router.put("/:id", async (req, res) => {
       req.body.shelf_code,
       req.body.status,
     );
+    
     if (!updatedBook)
       return res.status(404).json({ message: "Book not found" });
-    res.status(200).json(updatedBook);
+
+    res
+      .status(200)
+      .json({ message: "Book updated successfully", book: updatedBook });
   } catch (error: any) {
+    if (error.code === "23505") {
+      return res
+        .status(409)
+        .json({ message: "Book already exists", detail: error.detail });
+    }
     console.log("Failed to update book:", error);
     res.status(500).json({ error: error.message });
   }
