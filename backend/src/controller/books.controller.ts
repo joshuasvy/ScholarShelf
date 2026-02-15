@@ -7,6 +7,7 @@ import {
 } from "../models/books.js";
 import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
+import validateBooksPayload from "../helper/validateBooksPayload.js";
 
 const router = Router();
 
@@ -31,22 +32,14 @@ router.post("/", upload.single("book_cover"), async (req, res) => {
   let uploadBookCover: { public_id: string; secure_url: string } | undefined;
 
   try {
+    validateBooksPayload(req.body, req.file);
+
     if (!req.file) {
       return res.status(400).json({ message: "Book cover is required" });
     }
 
-    if (!title || !author || !publisher || !year) {
-      return res
-        .status(400)
-        .json({ message: "Please fill in all required fields" });
-    }
-
-    if (year && isNaN(Number(year))) {
-      return res.status(400).json({ message: "Year must be a valid number" });
-    }
-
     uploadBookCover = await cloudinary.uploader.upload(req.file.path, {
-      folder: "ScholarShelf_Books",
+      folder: "ScholarShelf Books",
     });
 
     const addBooks = await insertBooks(
