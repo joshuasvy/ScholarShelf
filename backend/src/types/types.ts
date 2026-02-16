@@ -11,7 +11,7 @@ export interface Book {
   year: number;
   citation?: string;
   topic: string;
-  shelf_code: number;
+  shelf_code: string;
   status: string;
   created_at?: Date;
   updated_at?: Date;
