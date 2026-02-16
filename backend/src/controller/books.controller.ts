@@ -25,7 +25,6 @@ router.post("/", upload.single("book_cover"), async (req, res) => {
     year,
     citation,
     topic,
-    shelf_code,
     status,
   } = req.body;
 
@@ -54,7 +53,6 @@ router.post("/", upload.single("book_cover"), async (req, res) => {
       Number(year),
       citation,
       topic,
-      shelf_code,
       status,
     );
     res.status(201).json(addBooks);
