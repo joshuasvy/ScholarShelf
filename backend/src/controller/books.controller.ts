@@ -7,6 +7,7 @@ import {
 } from "../models/books.js";
 import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
+import connection from "../config/connection.js";
 import validateBooksPayload from "../helper/validateBooksPayload.js";
 
 const router = Router();
@@ -77,11 +78,21 @@ router.post("/", upload.single("book_cover"), async (req, res) => {
   }
 });
 
-// Getting all the uploaded books from the database
+// Getting all the uploaded books from the database based on role
 router.get("/", async (req, res) => {
   try {
-    const getBooks = await getAllBooks();
-    res.json(getBooks);
+    const isAdmin = req.query.admin === "true";
+
+    const query = isAdmin
+      ? `SELECT * FROM books ORDER BY created_at;`
+      : `SELECT 
+          id, book_cover, title, sub_title, author, language, abstract, publisher, year, citation, topic, shelf_code, status
+        FROM books
+        ORDER BY created_at;
+    `;
+
+    const result = await connection.query(query);
+    res.json(result.rows);
   } catch (error: any) {
     console.log("Failed to retrieve books:", error);
     res.status(500).json({ error: error.message });
