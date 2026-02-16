@@ -13,10 +13,26 @@ export async function insertBooks(
   year: number,
   citation: string | null,
   topic: string,
-  shelf_code: number,
   status: string = "Available",
 ): Promise<Book> {
-  const query = `
+  const client = await connection.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const counterQuery = `
+      INSERT INTO topic_shelf_code (topic, code)
+      VALUES ($1, 1)
+      ON CONFLICT (topic)
+      DO UPDATE SET CODE = topic_shelf_code.code + 1
+      RETURNING code;
+    `;
+
+    const counterResult = await client.query(counterQuery, [topic]);
+    const nextCode = counterResult.rows[0].code;
+    const shelf_code = nextCode.toString().padStart(5, "0");
+
+    const query = `
     INSERT INTO books (
       book_cover, 
       book_cover_public_id,
@@ -35,30 +51,36 @@ export async function insertBooks(
     RETURNING *;
     `;
 
-  const values = [
-    book_cover,
-    book_cover_public_id,
-    title,
-    sub_title,
-    author,
-    language,
-    abstract,
-    publisher,
-    year,
-    citation,
-    topic,
-    shelf_code,
-    status,
-  ];
-  const result = await connection.query(query, values);
+    const values = [
+      book_cover,
+      book_cover_public_id,
+      title,
+      sub_title,
+      author,
+      language,
+      abstract,
+      publisher,
+      year,
+      citation,
+      topic,
+      shelf_code,
+      status,
+    ];
 
-  if (result.rows.length === 0) {
-    throw new Error("Failed to insert book");
+    const result = await connection.query(query, values);
+    await client.query("COMMIT");
+
+    if (result.rows.length === 0) {
+      throw new Error("Failed to insert book");
+    }
+
+    return result.rows[0] as Book;
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    client.release();
   }
-
-  const book: Book = result.rows[0];
-  console.log("Inserted book:", book.id, book.title);
-  return book;
 }
 
 export async function getAllBooks() {
