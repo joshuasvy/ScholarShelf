@@ -20,7 +20,7 @@ function AppRoute() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/book" element={<Books />} />
-        <Route path="/book/details" element={<BookDetails />} />
+        <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/about" element={<About />} />
