@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {
   insertBooks,
-  getAllBooks,
   getBookById,
   updateBook,
 } from "../models/books.js";

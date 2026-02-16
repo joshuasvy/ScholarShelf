@@ -83,13 +83,6 @@ export async function insertBooks(
   }
 }
 
-export async function getAllBooks() {
-  const query = `SELECT * FROM books ORDER BY created_at DESC;`;
-  const result = await connection.query(query);
-  console.log("Retrieved all books:", result.rows);
-  return result.rows;
-}
-
 export async function getBookById(id: number) {
   const query = `SELECT * FROM books WHERE id = $1;`;
   const values = [id];
