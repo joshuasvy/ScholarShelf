@@ -1,3 +1,6 @@
+import { useParams } from "react-router-dom";
+import { useBooks } from "../../hooks/useBooks";
+import type { BookInterface } from "../../types/type";
 import Breadcrumb from "../components/Breadcrumb";
 import Header from "../components/Header";
 import { sampleData } from "../../../data/sampleData";
@@ -5,23 +8,15 @@ import HorizontalCard from "../components/HorizontalCard";
 import Footer from "../components/Footer";
 
 function BookDetails() {
-  const book = {
-    cover: "/images/books/architecture-book-4.png",
-    title: "Robert Maillart's Bridges",
-    subtitle: "The Art of Engineer",
-    author: "David P. Billington",
-    language: "English",
-    abstract:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    info: {
-      publisher: "Princeton University Press",
-      year: "2020",
-      citation: "APA",
-      shelfCode: "0133010",
-      status: "Available",
-      topic: "Architecture",
-    },
-  };
+  const { title } = useParams<{ title: string }>();
+  const { books, loading, error } = useBooks();
+
+  if (loading) return <p>Loading book details...</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+
+  const book = books.find((b: BookInterface) => b.title === title);
+
+  if (!book) return <p style={{ color: "red" }}>Book not found.</p>;
 
   return (
     <div className="bg-primary min-h-screen w-full">
@@ -32,13 +27,13 @@ function BookDetails() {
         <Breadcrumb />
       </div>
 
-      <main className="mx-4 pt-10 md:pt-0 md:pb-12 md:mt-18 md:px-18 lg:px-0 max-w-7xl md:mx-auto"> 
+      <main className="mx-4 pt-10 md:pt-0 md:pb-12 md:mt-18 md:px-18 lg:px-0 max-w-7xl md:mx-auto">
         {/* Book Content */}
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
           {/* Left Column */}
           <div className="flex flex-col space-y-4 items-center md:items-start">
             <img
-              src={book.cover}
+              src={book.book_cover}
               alt="Book Cover"
               className="w-40 md:w-72 h-auto object-cover rounded-md shadow-lg"
             />
@@ -57,9 +52,7 @@ function BookDetails() {
               <span className="w-30 h-1 rounded-sm bg-secondary"></span>
             </div>
             <div className="flex md:items-start lg:items-center flex-row gap-4 md:gap-0 lg:gap-6 mb-2 ">
-              <h1 className="font-title text-2xl lg:text-3xl ">
-                {book.title}
-              </h1>
+              <h1 className="font-title text-2xl lg:text-3xl ">{book.title}</h1>
               <button className="cursor-pointer ">
                 <img
                   src="/images/icons/wishlist.png"
@@ -69,7 +62,7 @@ function BookDetails() {
               </button>
             </div>
             <h2 className="font-inter text-md text-placeholder">
-              {book.subtitle}
+              {book.sub_title}
             </h2>
 
             <div className="space-y-3 mt-8">
@@ -97,28 +90,28 @@ function BookDetails() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 font-inter">
                   <div>
                     <p className="font-medium">Publisher</p>
-                    <p>{book.info.publisher}</p>
+                    <p>{book.publisher}</p>
                   </div>
                   <div>
                     <p className="font-medium">Year</p>
-                    <p>{book.info.year}</p>
+                    <p>{book.year}</p>
                   </div>
                   <div>
                     <p className="font-medium">Citation</p>
-                    <p>{book.info.citation}</p>
+                    <p>{book.citation}</p>
                   </div>
                   <div>
                     <p className="font-medium">Shelf Code</p>
-                    <p>{book.info.shelfCode}</p>
+                    <p>{book.shelf_code}</p>
                   </div>
                   <div>
                     <p className="font-medium">Status</p>
-                    <p className="text-secondary">{book.info.status}</p>
+                    <p className="text-secondary">{book.status}</p>
                   </div>
                   <div>
                     <p className="font-medium">Topic</p>
                     <p className="underline">
-                      <a href="">{book.info.topic}</a>
+                      <a href="">{book.topic}</a>
                     </p>
                   </div>
                 </div>
