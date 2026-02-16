@@ -12,7 +12,7 @@ export default function BooksCard({ book }: BookCardProps) {
   return (
     <div className="w-30 md:w-42 h-fit flex flex-col gap-2 cursor-pointer">
       <button
-        onClick={() => navigate(`book/${book.id}`)}
+        onClick={() => navigate(`book/details/${book.id}`)}
         className="flex flex-col gap-2 cursor-pointer transition-transform duration-300 hover:scale-103"
       >
         <img
