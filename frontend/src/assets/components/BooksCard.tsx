@@ -4,7 +4,7 @@ import StatusBadge from "./StatusBadge";
 
 interface BookCardProps {
   book: BookInterface;
-  getPath: (book: BookInterface) => string;
+  getPath?: (book: BookInterface) => string;
 }
 
 export default function BooksCard({ book, getPath }: BookCardProps) {
