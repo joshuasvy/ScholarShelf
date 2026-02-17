@@ -4,15 +4,18 @@ import StatusBadge from "./StatusBadge";
 
 interface BookCardProps {
   book: BookInterface;
+  getPath: (book: BookInterface) => string;
 }
 
-export default function BooksCard({ book }: BookCardProps) {
+export default function BooksCard({ book, getPath }: BookCardProps) {
   const navigate = useNavigate();
+
+  const path = getPath ? getPath(book) : `/book/${book.title}`;
 
   return (
     <div className="w-30 md:w-42 h-fit flex flex-col gap-2 cursor-pointer">
       <button
-        onClick={() => navigate(`${book.title}`)}
+        onClick={() => navigate(path)}
         className="flex flex-col gap-2 cursor-pointer transition-transform duration-300 hover:scale-103"
       >
         <img
