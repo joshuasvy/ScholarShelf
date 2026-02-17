@@ -16,15 +16,14 @@ function Category() {
   if (loading) return <p>Loading books...</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
-  const decodedTopic = decodeURIComponent(topic);
+  const decodedTopic = decodeURIComponent(topic ?? "");
   const topicInfo = topics[decodedTopic] || {
     icon: "/images/icons/antropology.png",
     subtopic: "No description available",
   };
 
   const filterBooks = books.filter(
-    (book) =>
-      book.topic.toLowerCase() === decodeURIComponent(topic).toLowerCase(),
+    (book) => book.topic.toLowerCase() === decodedTopic.toLowerCase(),
   );
   return (
     <div className="bg-primary min-h-screen w-full">
@@ -74,7 +73,11 @@ function Category() {
         ) : (
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-7 gap-2 mt-12 space-y-3 justify-items-center px-4 md:px-12 lg:px-0">
             {filterBooks.map((book: BookInterface) => (
-              <BooksCard key={book.id} book={book} />
+              <BooksCard
+                key={book.id}
+                book={book}
+                getPath={(b) => `/catalog/${decodedTopic}/${b.title}`}
+              />
             ))}
           </div>
         )}
