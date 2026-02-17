@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useBooks } from "../../hooks/useBooks";
 import type { BookInterface } from "../../types/type";
 import Breadcrumb from "../components/Breadcrumb";
@@ -111,7 +112,9 @@ function BookDetails() {
                   <div>
                     <p className="font-medium">Topic</p>
                     <p className="underline">
-                      <a href="">{book.topic}</a>
+                      <Link to={`/catalog/${encodeURIComponent(book.topic)}`}>
+                        {book.topic}
+                      </Link>
                     </p>
                   </div>
                 </div>
