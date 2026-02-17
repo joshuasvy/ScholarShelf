@@ -21,6 +21,7 @@ function AppRoute() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/book" element={<Books />} />
+        <Route path="/catalog/:topic/:title" element={<BookDetails />} />
         <Route path="/book/:title" element={<BookDetails />} />
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/catalog/:topic" element={<Category />} />
