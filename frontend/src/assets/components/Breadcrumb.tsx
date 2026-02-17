@@ -24,9 +24,11 @@ function Breadcrumb() {
           const routeTo = "/" + pathnames.slice(0, index + 1).join("/");
           const isLast = index === pathnames.length - 1;
 
+          const decodedName = decodeURIComponent(name);
+
           const label =
-            labels[name] ||
-            name
+            labels[decodedName.toLowerCase()] ||
+            decodedName
               .split("-")
               .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
               .join(" ");
@@ -38,7 +40,7 @@ function Breadcrumb() {
             >
               <span className="mx-4">{">"}</span>
               {isLast ? (
-                <span className="underline">{label}</span>
+                <span>{label}</span>
               ) : (
                 <Link to={routeTo} className="underline">
                   {label}
