@@ -5,6 +5,7 @@ import Signin from "../pages/Signin";
 import Books from "../pages/Books";
 import BookDetails from "../pages/BookDetails";
 import Catalog from "../pages/Catalog";
+import Category from "../pages/Category";
 import Reservation from "../pages/Reservation";
 import About from "../pages/About";
 import Profile from "../pages/Profile";
@@ -22,6 +23,7 @@ function AppRoute() {
         <Route path="/book" element={<Books />} />
         <Route path="/book/:title" element={<BookDetails />} />
         <Route path="/catalog" element={<Catalog />} />
+        <Route path="/catalog/:topic" element={<Category />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
