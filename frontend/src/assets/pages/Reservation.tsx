@@ -1,10 +1,17 @@
+import { useBooks } from "../../hooks/useBooks";
+import type { BookInterface } from "../../types/type";
 import Header from "../components/Header";
 import Breadcrumb from "../components/Breadcrumb";
 import BooksCard from "../components/BooksCard";
-import { reservationData } from "../../../data/reservationData";
+
 import Footer from "../components/Footer";
 
 function Reservation() {
+  const { books, loading, error } = useBooks();
+
+  if (loading) return <p>Loading Books...</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+
   return (
     <div className="bg-primary min-h-screen w-full">
       <Header />
@@ -24,8 +31,8 @@ function Reservation() {
               </a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-6 justify-items-center">
-              {reservationData.map((book) => (
-                <BooksCard key={book.id} {...book} />
+              {books.map((book: BookInterface) => (
+                <BooksCard key={book.id} book={book} />
               ))}
             </div>
           </section>
@@ -42,8 +49,8 @@ function Reservation() {
               </a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-6 justify-items-center">
-              {reservationData.map((book) => (
-                <BooksCard key={book.id} {...book} />
+              {books.map((book: BookInterface) => (
+                <BooksCard key={book.id} book={book} />
               ))}
             </div>
           </section>
