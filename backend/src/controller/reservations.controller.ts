@@ -1,6 +1,7 @@
 import { createReservation } from "../models/reservations.js";
 import { authenticationToken, AuthRequest } from "../middleware/auth.js";
 import { Router } from "express";
+import { error } from "node:console";
 
 const router = Router();
 
@@ -8,10 +9,8 @@ router.post("/", authenticationToken, async (req: AuthRequest, res) => {
   const userId = req.user!.userId;
   const { book_id } = req.body;
 
-  if (!userId || !book_id) {
-    return res
-      .status(401)
-      .json({ message: "User ID and book ID are required" });
+  if (!book_id) {
+    return res.status(400).json({ message: "Book ID are required" });
   }
 
   try {
@@ -21,18 +20,19 @@ router.post("/", authenticationToken, async (req: AuthRequest, res) => {
       reservation: result.reservation,
     });
   } catch (err: any) {
-    const clientError = [
-      "Book not found",
-      "Book is not available",
-      "Book already reserved",
-    ];
+    const notFoundError = ["Book not found"];
+    const conflictError = ["Book is not available, Book already reserved"];
 
-    if (clientError.includes(err.message)) {
-      return res.status(409).json({ error: err.message });
+    if (notFoundError.includes(err.message)) {
+      return res.status(404).json({ message: err.message });
+    }
+
+    if (conflictError.includes(err.message)) {
+      return res.status(409).json({ message: err.message });
     }
 
     console.error("Reserved book error:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: "Something went wrong. Please try again" });
   }
 });
 
