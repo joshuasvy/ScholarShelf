@@ -1,7 +1,9 @@
-import { createReservation } from "../models/reservations.js";
+import {
+  createReservation,
+  getReservationUser,
+} from "../models/reservations.js";
 import { authenticationToken, AuthRequest } from "../middleware/auth.js";
 import { Router } from "express";
-import { error } from "node:console";
 
 const router = Router();
 
@@ -31,6 +33,18 @@ router.post("/", authenticationToken, async (req: AuthRequest, res) => {
       return res.status(409).json({ message: err.message });
     }
 
+    console.error("Reserved book error:", err);
+    res.status(500).json({ message: "Something went wrong. Please try again" });
+  }
+});
+
+router.get("/me", authenticationToken, async (req: AuthRequest, res) => {
+  const userId = req.user!.userId;
+
+  try {
+    const result = await getReservationUser(userId);
+    res.json(result);
+  } catch (err: any) {
     console.error("Reserved book error:", err);
     res.status(500).json({ message: "Something went wrong. Please try again" });
   }
