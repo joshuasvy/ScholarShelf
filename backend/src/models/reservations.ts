@@ -56,3 +56,27 @@ export async function createReservation(userId: number, bookId: number) {
     client.release();
   }
 }
+
+export async function getReservationUser(userId: number) {
+  const result = await connection.query(
+    `SELECT
+      r.id,
+      r.status,
+      r.reserved_at,
+      r.updated_at,
+      b.id,
+      b.book_cover,
+      b.title,
+      b.author,
+      b.year,
+      b.topic,
+      b.shelf_code
+    FROM reservations r
+    JOIN books b ON r.book_id = b.id
+    WHERE r.user_id = $1
+    ORDER BY r.reserved_at DESC`,
+    [userId],
+  );
+
+  return result.rows;
+}
