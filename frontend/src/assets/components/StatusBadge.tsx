@@ -1,5 +1,5 @@
 interface StatusProps {
-  status: "Pending" | "Approved" | "Rejected" | "Completed";
+  status: "Pending" | "Approved" | "Returned" | "Cancelled";
 }
 
 export default function StatusBadge({ status }: StatusProps) {
@@ -15,13 +15,13 @@ export default function StatusBadge({ status }: StatusProps) {
       styles = "text-approved";
       label = "Approved";
       break;
-    case "Rejected":
-      styles = "text-rejected";
-      label = "Rejected";
-      break;
-    case "Completed":
+    case "Returned":
       styles = "text-completed";
-      label = "Completed";
+      label = "Returned";
+      break;
+    case "Cancelled":
+      styles = "text-rejected";
+      label = "Cancelled";
       break;
     default:
       styles = "text-placeholder";
@@ -29,5 +29,5 @@ export default function StatusBadge({ status }: StatusProps) {
       break;
   }
 
-  return <span className={`text-sm font-semibold ${styles}`}> {label} </span>;
+  return <span className={`text-sm font-semibold ${styles}`}>{label}</span>;
 }

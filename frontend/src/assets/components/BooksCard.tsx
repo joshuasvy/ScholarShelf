@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import type { BookInterface } from "../../types/type";
+import type { BookInterface, ReservationInterface } from "../../types/type";
 import StatusBadge from "./StatusBadge";
 
 interface BookCardProps {
-  book: BookInterface;
-  getPath?: (book: BookInterface) => string;
+  book: BookInterface | ReservationInterface;
+  getPath?: (book: BookInterface | ReservationInterface) => string;
 }
 
 export default function BooksCard({ book, getPath }: BookCardProps) {
@@ -29,7 +29,7 @@ export default function BooksCard({ book, getPath }: BookCardProps) {
           <p className="text-sm">{book.year}</p>
           <StatusBadge
             status={
-              book.status as "Pending" | "Approved" | "Rejected" | "Completed"
+              book.status as "Pending" | "Approved" | "Returned" | "Cancelled"
             }
           />
         </div>

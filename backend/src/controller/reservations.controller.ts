@@ -26,7 +26,7 @@ router.post(
       });
     } catch (err: any) {
       const notFoundError = ["Book not found"];
-      const conflictError = ["Book is not available, Book already reserved"];
+      const conflictError = ["Book is not available", "Book already reserved"];
 
       if (notFoundError.includes(err.message)) {
         return res.status(404).json({ message: err.message });
@@ -44,16 +44,22 @@ router.post(
   },
 );
 
-router.get("/me", authenticationToken, async (req: AuthRequest, res) => {
-  const userId = req.user!.userId;
+router.get(
+  "/me",
+  authenticationToken,
+  async (req: AuthRequest, res: Response) => {
+    const userId = req.user!.userId;
 
-  try {
-    const result = await getReservationUser(userId);
-    res.json(result);
-  } catch (err: any) {
-    console.error("Reserved book error:", err);
-    res.status(500).json({ message: "Something went wrong. Please try again" });
-  }
-});
+    try {
+      const result = await getReservationUser(userId);
+      res.json(result);
+    } catch (err: any) {
+      console.error("Reserved book error:", err);
+      res
+        .status(500)
+        .json({ message: "Something went wrong. Please try again" });
+    }
+  },
+);
 
 export default router;

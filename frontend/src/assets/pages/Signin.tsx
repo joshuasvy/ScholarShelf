@@ -13,6 +13,7 @@ function Signin() {
   async function onSubmit() {
     const result = await handleSignin({ email, password });
     if (result) {
+      localStorage.setItem("accessToken", result.accessToken);
       navigate("/home");
       console.log("Success", "Login successful!");
     }
