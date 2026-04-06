@@ -1,37 +1,35 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useBooks } from "../../hooks/useBooks";
+import { useSimilarBooks } from "../../hooks/useSimilarBooks";
 import type { BookInterface } from "../../types/type";
 import Breadcrumb from "../components/Breadcrumb";
 import Header from "../components/Header";
-import { sampleData } from "../../../data/sampleData";
 import HorizontalCard from "../components/HorizontalCard";
 import Footer from "../components/Footer";
 
 function BookDetails() {
-  const { title } = useParams<{ title: string }>();
+  const { id } = useParams<{ id: string }>();
+  const bookId = Number(id);
   const { books, loading, error } = useBooks();
+  const { similarBooks, loading: similarLoading } = useSimilarBooks(bookId);
 
   if (loading) return <p>Loading book details...</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
-  const book = books.find((b: BookInterface) => b.title === title);
+  const book = books.find((b: BookInterface) => b.id === bookId);
 
   if (!book) return <p style={{ color: "red" }}>Book not found.</p>;
 
   return (
     <div className="bg-primary min-h-screen w-full">
       <Header />
-
-      {/* Breadcrumb */}
       <div className="mt-18 hidden md:block md:px-18 lg:px-32">
-        <Breadcrumb />
+        <Breadcrumb customLabels={{ [String(bookId)]: book.title }} />
       </div>
 
       <main className="mx-4 pt-10 md:pt-0 md:pb-12 md:mt-18 md:px-18 lg:px-0 max-w-7xl md:mx-auto">
-        {/* Book Content */}
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-          {/* Left Column */}
           <div className="flex flex-col space-y-4 items-center md:items-start">
             <img
               src={book.book_cover}
@@ -43,8 +41,6 @@ function BookDetails() {
               <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-approved"></span>
             </button>
           </div>
-
-          {/* Right Column */}
           <div className="flex-1">
             <div className="hidden md:flex flex-col items-start gap-1 mb-10">
               <h2 className="font-inter font-medium text-md text-placeholder tracking-wide">
@@ -77,13 +73,11 @@ function BookDetails() {
                 <p className="font-inter text-lg">{book.language}</p>
               </div>
 
-              {/* Abstract */}
               <div className="space-y-2 my-10">
                 <p className="font-inter text-lg font-medium">Abstract</p>
                 <p className="font-inter text-base">{book.abstract}</p>
               </div>
 
-              {/* Info Grid */}
               <div>
                 <h3 className="font-inter text-lg font-medium">
                   Information about this Book
@@ -123,21 +117,30 @@ function BookDetails() {
           </div>
         </div>
 
-        {/* Similar Books */}
         <section className="mt-16">
           <div className="flex justify-between items-center">
             <h2 className="font-inter font-bold text-2xl">Similar Books</h2>
-            <a
-              href=""
+            <Link
+              to={`/catalog/${encodeURIComponent(book.topic)}`}
               className="font-inter text-md text-secondary font-semibold underline"
             >
               View more
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 justify-items-center">
-            {sampleData.map((book) => (
-              <HorizontalCard key={book.id} {...book} />
-            ))}
+            {similarLoading ? (
+              <p className="col-span-full font-inter text-md text-center">
+                Loading similar books...
+              </p>
+            ) : similarBooks.length === 0 ? (
+              <p className="col-span-full font-inter text-md text-center text-gray-500">
+                No similar books found.
+              </p>
+            ) : (
+              similarBooks.map((similar) => (
+                <HorizontalCard key={similar.id} book={similar} />
+              ))
+            )}
           </div>
         </section>
       </main>
