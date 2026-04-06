@@ -2,6 +2,9 @@ import { Router } from "express";
 import {
   insertBooks,
   getBookById,
+  getBookByTopic,
+  getFeaturedBooks,
+  getMostPopularBooks,
   updateBook,
 } from "../models/books.js";
 import multer from "multer";
@@ -94,6 +97,52 @@ router.get("/", async (req, res) => {
     res.json(result.rows);
   } catch (error: any) {
     console.log("Failed to retrieve books:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/featured", async (req, res) => {
+  try {
+    const books = await getFeaturedBooks();
+    res.json(books);
+  } catch (error: any) {
+    console.error("Failed to retrieve featured books:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong. Please try again." });
+  }
+});
+
+router.get("/most-popular", async (req, res) => {
+  try {
+    const books = await getMostPopularBooks();
+    res.json(books);
+  } catch (error: any) {
+    console.error("Failed to retrieve popular books:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong. Please try again." });
+  }
+});
+
+router.get("/:id/similar", async (req, res) => {
+  const bookId = Number(req.params.id);
+
+  if (isNaN(bookId)) {
+    return res.status(400).json({ message: "Invalid book ID" });
+  }
+
+  try {
+    const book = await getBookById(bookId);
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    const similarBooks = await getBookByTopic(book.topic, bookId);
+    res.json(similarBooks);
+  } catch (error: any) {
+    console.error("Failed to fetch similar books:", error);
     res.status(500).json({ error: error.message });
   }
 });

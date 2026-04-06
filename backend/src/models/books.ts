@@ -91,6 +91,50 @@ export async function getBookById(id: number) {
   return result.rows[0];
 }
 
+export async function getBookByTopic(topic: string, excludeId: number) {
+  const query = `
+  SELECT id, book_cover, title, author, year, topic, shelf_code, status
+  FROM books
+  WHERE topic = $1
+  AND id != $2
+  LIMIT 4`;
+  const values = [topic, excludeId];
+  const result = await connection.query(query, values);
+  return result.rows;
+}
+
+export async function getFeaturedBooks() {
+  const query = `
+    SELECT id, book_cover, title, author, year, topic, shelf_code, status
+    FROM books
+    ORDER BY created_at DESC
+    LIMIT 5
+  `;
+  const result = await connection.query(query);
+  return result.rows;
+}
+
+export async function getMostPopularBooks() {
+  const query = `SELECT 
+    b.id,
+    b.book_cover,
+    b.title,
+    b.author,
+    b.year,
+    b.topic,
+    b.shelf_code,
+    b.status,
+    COUNT (br.id) AS reservation_count
+    FROM books b
+    LEFT JOIN reservations r ON r.book_id = b.id
+    GROUP BY b.id
+    ORDER BY reservation_count DESC
+    LIMIT 5  
+  `;
+  const result = await connection.query(query);
+  return result.rows;
+}
+
 export async function updateBook(
   id: number,
   book_cover: string,
