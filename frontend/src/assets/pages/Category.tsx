@@ -76,7 +76,7 @@ function Category() {
               <BooksCard
                 key={book.id}
                 book={book}
-                getPath={(b) => `/catalog/${decodedTopic}/${b.title}`}
+                getPath={(b) => `/catalog/${decodedTopic}/${b.id}`}
               />
             ))}
           </div>
