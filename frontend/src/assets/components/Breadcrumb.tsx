@@ -1,6 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 
-function Breadcrumb() {
+interface BreadcrumbProps {
+  customLabels?: Record<string, string>;
+}
+
+function Breadcrumb({ customLabels }: BreadcrumbProps) {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter(Boolean);
 
@@ -10,6 +14,7 @@ function Breadcrumb() {
     catalog: "Catalog",
     reservation: "Reservations",
     about: "About",
+    ...customLabels,
   };
 
   return (
