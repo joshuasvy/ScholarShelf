@@ -1,11 +1,14 @@
+import { useFeaturedBooks } from "../../hooks/useFeaturedBooks";
 import Header from "../components/Header";
 import Breadcrumb from "../components/Breadcrumb";
 import Categories from "../components/Categories";
-// import { sampleData } from "../../../data/sampleData";
-// import HorizontalCard from "../components/HorizontalCard";
 import Footer from "../components/Footer";
+import type { BookInterface } from "../../types/type";
+import HorizontalCard from "../components/HorizontalCard";
 
 function Catalog() {
+  const { featuredBooks, loading: featuredLoading } = useFeaturedBooks();
+
   return (
     <div className="bg-primary min-h-screen w-full">
       <Header />
@@ -28,9 +31,19 @@ function Catalog() {
               </a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 justify-items-center">
-              {/* {sampleData.map((book) => (
-                <HorizontalCard key={book.id} {...book} />
-              ))} */}
+              {featuredLoading ? (
+                <p className="col-span-full font-inter text-md text-center text-gray-500">
+                  Loading featured books...
+                </p>
+              ) : featuredBooks.length === 0 ? (
+                <p className="col-span-full font-inter text-md text-center text-gray-500">
+                  No featured books at the moment.
+                </p>
+              ) : (
+                featuredBooks.map((book: BookInterface) => (
+                  <HorizontalCard key={book.id} book={book} />
+                ))
+              )}
             </div>
           </section>
           <section className="mt-16">
