@@ -1,8 +1,8 @@
 import Header from "../components/Header";
 import Breadcrumb from "../components/Breadcrumb";
 import Categories from "../components/Categories";
-import { sampleData } from "../../../data/sampleData";
-import HorizontalCard from "../components/HorizontalCard";
+// import { sampleData } from "../../../data/sampleData";
+// import HorizontalCard from "../components/HorizontalCard";
 import Footer from "../components/Footer";
 
 function Catalog() {
@@ -28,9 +28,9 @@ function Catalog() {
               </a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 justify-items-center">
-              {sampleData.map((book) => (
+              {/* {sampleData.map((book) => (
                 <HorizontalCard key={book.id} {...book} />
-              ))}
+              ))} */}
             </div>
           </section>
           <section className="mt-16">
@@ -46,9 +46,9 @@ function Catalog() {
               </a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 justify-items-center">
-              {sampleData.map((book) => (
+              {/* {sampleData.map((book) => (
                 <HorizontalCard key={book.id} {...book} />
-              ))}
+              ))} */}
             </div>
           </section>
         </div>
