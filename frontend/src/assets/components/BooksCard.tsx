@@ -10,7 +10,7 @@ interface BookCardProps {
 export default function BooksCard({ book, getPath }: BookCardProps) {
   const navigate = useNavigate();
 
-  const path = getPath ? getPath(book) : `/book/${book.title}`;
+  const path = getPath ? getPath(book) : `/book/${book.id}`;
 
   return (
     <div className="w-30 md:w-42 h-fit flex flex-col gap-2 cursor-pointer">
