@@ -31,7 +31,7 @@ export default function HorizontalCard({ book }: { book: BookInterface }) {
             </span>
           </p>
           <div className="mt-auto self-end hidden md:block">
-            <CardActionBtn />
+            <CardActionBtn bookId={book.id} />
           </div>
         </div>
       </div>
