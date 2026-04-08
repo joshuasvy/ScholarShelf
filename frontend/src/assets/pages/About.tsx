@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 function About() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-primary min-h-screen w-full">
       <Header />
@@ -95,7 +98,7 @@ function About() {
               className="py-2 md:py-4 my-4 md:my-8 tracking-wide"
               textClassName="text-md md:text-lg"
               next="/images/icons/arrow-right.png"
-              onClick={() => {}}
+              onClick={() => navigate("/book")}
             />
           </div>
         </div>

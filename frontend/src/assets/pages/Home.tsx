@@ -125,7 +125,7 @@ function Home() {
             </p>
             <Button
               text="Browse now"
-              onClick={() => {}}
+              onClick={() => navigate("/book")}
               className="w-48 h-12"
               textClassName="text-md md:text-lg"
             />
