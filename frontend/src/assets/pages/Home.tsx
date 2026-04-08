@@ -1,5 +1,6 @@
 import { usePopularBooks } from "../../hooks/usePopularBooks";
 import { testimonial } from "../../../data/testimonial";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import TrendingBooks from "../components/TrendingBooks";
@@ -7,11 +8,13 @@ import TestimonialCard from "../components/TestimonialCard";
 import Footer from "../components/Footer";
 
 function Home() {
+  const navigate = useNavigate();
   const { popularBooks, loading: popularLoading } = usePopularBooks();
   const topics = [...new Set(popularBooks.map((book) => book.topic))].slice(
     0,
     2,
   );
+
   return (
     <div className="min-h-screen w-full bg-primary">
       <Header />
@@ -25,7 +28,7 @@ function Home() {
         </p>
         <Button
           text="Join us now"
-          onClick={() => {}}
+          onClick={() => navigate("/signup")}
           className="w-56 h-10 md:w-80 md:h-13"
           textClassName="text-md md:text-xl"
         />
