@@ -1,13 +1,17 @@
+import { usePopularBooks } from "../../hooks/usePopularBooks";
+import { testimonial } from "../../../data/testimonial";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import TrendingBooks from "../components/TrendingBooks";
 import TestimonialCard from "../components/TestimonialCard";
 import Footer from "../components/Footer";
-import { trendingBooks } from "../../../data/trendingBooks";
-import { testimonial } from "../../../data/testimonial";
 
 function Home() {
-  const topics = [...new Set(trendingBooks.map((book) => book.topic))];
+  const { popularBooks, loading: popularLoading } = usePopularBooks();
+  const topics = [...new Set(popularBooks.map((book) => book.topic))].slice(
+    0,
+    2,
+  );
   return (
     <div className="min-h-screen w-full bg-primary">
       <Header />
@@ -130,19 +134,29 @@ function Home() {
           <h1 className="font-inter font-bold text-2xl">
             Trending Book on ScholarShelf
           </h1>
-          {topics.map((topic) => (
-            <div key={topic}>
-              <div className="flex flex-row gap-2 items-center mb-6 mt-6 ml-4">
-                <img
-                  src={`/images/icons/${topic.toLowerCase()}.png`}
-                  alt={`${topic} Icon`}
-                  className="w-7"
-                />
-                <h2 className="font-inter font-bold text-lg">{topic}</h2>
+          {popularLoading ? (
+            <p className="font-inter text-md text-center text-gray-500 mt-6">
+              Loading trending books...
+            </p>
+          ) : popularBooks.length === 0 ? (
+            <p className="font-inter text-md text-center text-gray-500 mt-6">
+              No trending books at the moment.
+            </p>
+          ) : (
+            topics.map((topic) => (
+              <div key={topic}>
+                <div className="flex flex-row gap-2 items-center mb-6 mt-6 ml-4">
+                  <img
+                    src={`/images/icons/${topic.toLowerCase()}.png`}
+                    alt={`${topic} Icon`}
+                    className="w-7"
+                  />
+                  <h2 className="font-inter font-bold text-lg">{topic}</h2>
+                </div>
+                <TrendingBooks topic={topic} books={popularBooks} />
               </div>
-              <TrendingBooks topic={topic} />
-            </div>
-          ))}
+            ))
+          )}
         </div>
         <button className="flex flex-row items-center justify-center gap-2 mt-18 hover:underline decoration-secondary cursor-pointer">
           <p className="font-inter text-xl font-bold text-secondary">More</p>
